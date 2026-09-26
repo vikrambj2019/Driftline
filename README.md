@@ -3,7 +3,7 @@
 Driftline is a fictional flight-booking website for demonstrating and evaluating
 browser agents:
 
-- **bta**, the pre-PR browser testing agent, which should find the planted defects.
+- **[assay](https://github.com/vikrambj2019/assay)**, the pre-PR browser testing agent, which should find the planted defects.
 - **browser-agent**, the workflow agent, which should complete tasks through realistic
   obstacles without claiming false success.
 
@@ -66,7 +66,7 @@ flights, times, and fares, so demo recordings are reproducible and questions lik
 calendar is fixed to October 1, 2026 – March 31, 2027 regardless of today's date.
 
 Creating bookings and editing profiles is harmless here, so running a testing
-agent with mutations enabled (`BTA_ALLOW_MUTATIONS=true`) is fine **on this site
+agent with mutations enabled (`ASSAY_ALLOW_MUTATIONS=true`) is fine **on this site
 only**.
 
 ## Ground-truth checks
