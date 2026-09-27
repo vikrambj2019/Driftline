@@ -97,6 +97,7 @@ function SavedTravelers() {
     e.preventDefault();
     const errs = {};
     if (!NAME_RE.test(editForm.firstName.trim())) errs.firstName = 'Enter a first name.';
+    if (!NAME_RE.test(editForm.lastName.trim())) errs.lastName = 'Enter a last name.';
     if (!isValidISO(editForm.dob)) errs.dob = 'Enter a date of birth.';
     setEditErrors(errs);
     if (Object.keys(errs).length) return;
