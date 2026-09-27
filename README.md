@@ -69,6 +69,20 @@ Creating bookings and editing profiles is harmless here, so running a testing
 agent with mutations enabled (`ASSAY_ALLOW_MUTATIONS=true`) is fine **on this site
 only**.
 
+## Developing Driftline with assay
+
+Driftline doubles as a realistic app for assay's pre-PR workflow.
+
+- `docs/FEATURES.md` describes the product behavior; assay plans from it.
+- `AGENTS.md` (read by Codex, Cursor, and others) and `CLAUDE.md` plus
+  `.claude/skills/browser-check/` (Claude Code) tell coding agents to verify
+  every user-visible change with `assay check` before opening a PR.
+- `.env.example` configures assay against `npm run dev`.
+- `changes/` holds one notes file per feature; `results/` (gitignored) holds
+  assay's output.
+- `assay/plans/baseline/` holds the frozen regression plan (see its README).
+- `docs/DEMO_TASKS.md` and `docs/DEMO_VIDEOS.md` script the demo recordings.
+
 ## Ground-truth checks
 
 `tests/ground_truth.py` drives the site with Playwright and confirms the clean
