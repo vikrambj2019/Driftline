@@ -83,6 +83,33 @@ function SavedTravelers() {
   const [adding, setAdding] = useState(false);
   const [form, setForm] = useState({ firstName: '', lastName: '', dob: '' });
   const [errors, setErrors] = useState({});
+  const [editingId, setEditingId] = useState(null);
+  const [editForm, setEditForm] = useState({ firstName: '', lastName: '', dob: '' });
+  const [editErrors, setEditErrors] = useState({});
+
+  function startEdit(t) {
+    setEditingId(t.id);
+    setEditForm({ firstName: t.firstName, lastName: t.lastName, dob: t.dob });
+    setEditErrors({});
+  }
+
+  function saveEdit(e) {
+    e.preventDefault();
+    const errs = {};
+    if (!NAME_RE.test(editForm.firstName.trim())) errs.firstName = 'Enter a first name.';
+    if (!isValidISO(editForm.dob)) errs.dob = 'Enter a date of birth.';
+    setEditErrors(errs);
+    if (Object.keys(errs).length) return;
+    update((cur) => ({
+      ...cur,
+      savedTravelers: cur.savedTravelers.map((x) =>
+        x.id === editingId
+          ? { ...x, firstName: editForm.firstName.trim(), lastName: editForm.lastName.trim(), dob: editForm.dob }
+          : x,
+      ),
+    }));
+    setEditingId(null);
+  }
 
   function add(e) {
     e.preventDefault();
@@ -104,21 +131,58 @@ function SavedTravelers() {
     <section className="card" aria-labelledby="st-heading">
       <h2 id="st-heading">Saved travelers</h2>
       <ul className="saved-list">
-        {state.savedTravelers.map((t) => (
-          <li key={t.id}>
-            <span>
-              {t.firstName} {t.lastName} <span className="muted small">· born {t.dob}</span>
-            </span>
-            <button
-              type="button"
-              className="linklike"
-              aria-label={`Remove ${t.firstName} ${t.lastName}`}
-              onClick={() => update((cur) => ({ ...cur, savedTravelers: cur.savedTravelers.filter((x) => x.id !== t.id) }))}
-            >
-              Remove
-            </button>
-          </li>
-        ))}
+        {state.savedTravelers.map((t) =>
+          editingId === t.id ? (
+            <li key={t.id} className="saved-edit">
+              <form onSubmit={saveEdit} noValidate aria-label={`Edit ${t.firstName} ${t.lastName}`}>
+                <div className="grid-3">
+                  <div className="field">
+                    <label htmlFor="ed-first">First name</label>
+                    <input id="ed-first" value={editForm.firstName} onChange={(e) => setEditForm({ ...editForm, firstName: e.target.value })} aria-invalid={!!editErrors.firstName} />
+                    {editErrors.firstName && <p className="field-error" role="alert">{editErrors.firstName}</p>}
+                  </div>
+                  <div className="field">
+                    <label htmlFor="ed-last">Last name</label>
+                    <input id="ed-last" value={editForm.lastName} onChange={(e) => setEditForm({ ...editForm, lastName: e.target.value })} aria-invalid={!!editErrors.lastName} />
+                    {editErrors.lastName && <p className="field-error" role="alert">{editErrors.lastName}</p>}
+                  </div>
+                  <div className="field">
+                    <label htmlFor="ed-dob">Date of birth</label>
+                    <input id="ed-dob" type="date" value={editForm.dob} onChange={(e) => setEditForm({ ...editForm, dob: e.target.value })} aria-invalid={!!editErrors.dob} />
+                    {editErrors.dob && <p className="field-error" role="alert">{editErrors.dob}</p>}
+                  </div>
+                </div>
+                <div className="btn-row">
+                  <button type="submit" className="btn btn-primary">
+                    Save traveler changes
+                  </button>
+                  <button type="button" className="btn btn-secondary" onClick={() => setEditingId(null)}>
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </li>
+          ) : (
+            <li key={t.id}>
+              <span>
+                {t.firstName} {t.lastName} <span className="muted small">· born {t.dob}</span>
+              </span>
+              <span className="saved-actions">
+                <button type="button" className="linklike" aria-label={`Edit ${t.firstName} ${t.lastName}`} onClick={() => startEdit(t)}>
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  className="linklike"
+                  aria-label={`Remove ${t.firstName} ${t.lastName}`}
+                  onClick={() => update((cur) => ({ ...cur, savedTravelers: cur.savedTravelers.filter((x) => x.id !== t.id) }))}
+                >
+                  Remove
+                </button>
+              </span>
+            </li>
+          ),
+        )}
       </ul>
       {adding ? (
         <form onSubmit={add} noValidate aria-label="Add saved traveler">

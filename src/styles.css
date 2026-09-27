@@ -235,6 +235,8 @@ legend { font-weight: 600; font-size: 0.9rem; margin-bottom: 6px; padding: 0; }
 .demo-creds { margin-top: 14px; font-size: 0.85rem; color: var(--muted); text-align: center; }
 .saved-list { list-style: none; padding: 0; margin: 0 0 12px; }
 .saved-list li { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.saved-list li.saved-edit { display: block; }
+.saved-actions { display: flex; gap: 14px; }
 .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: #16212b; color: #fff; padding: 12px 20px; border-radius: 10px; box-shadow: var(--shadow-lg); z-index: 60; font-weight: 500; }
 .toast span { color: #6fd6a0; margin-right: 6px; }
 .not-found .big-code { font-size: 4rem; font-weight: 800; color: var(--brand); margin: 0; letter-spacing: -0.03em; }

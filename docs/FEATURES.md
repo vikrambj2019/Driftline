@@ -91,7 +91,9 @@ March 31, 2027. Sign in with `demo@example.com` / `demo1234`.
   10 digits), and home airport. "Save changes" confirms with "Profile saved",
   and the changes are still there after reloading. The sign-in email can't be
   changed here.
-- Saved travelers can be added (name and date of birth) and removed.
+- Saved travelers can be added (name and date of birth), edited, and removed.
+  Editing requires a first and last name and a date of birth; the changes are
+  still there after reloading.
 - The admin console requires a code from an authenticator app.
 - Sign out returns you to the search page.
 
